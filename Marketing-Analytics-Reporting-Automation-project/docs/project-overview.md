@@ -1,261 +1,403 @@
-Marketing Analytics & Reporting Automation Project Overview 
+# Marketing Analytics & Reporting Automation
 
-1. Project Overview
+## 1. Project Overview
 
 This project aims to build an end-to-end marketing analytics and reporting automation solution for an EdTech training company offering online and offline courses across India and international markets.
 
-The company invests in multiple digital marketing channels, including SEO, paid search, and social media advertising, to generate enquiries and acquire students. However, marketing performance data is spread across different platforms, while lead and enrolment information is maintained separately in Zoho CRM.
+The company invests in multiple digital marketing channels, including SEO, paid search, and social media advertising, to generate enquiries and acquire students. However, marketing performance data is distributed across different platforms, while lead and enrolment information is maintained separately in Zoho CRM.
 
-The objective is to integrate these data sources into a centralized cloud data warehouse, automate data extraction and transformation, and develop Power BI dashboards that connect marketing activities with lead generation and actual student enrolments.
+The objective is to integrate these data sources into a centralized cloud data warehouse, automate data extraction and transformation, and develop Power BI dashboards that connect marketing activities with lead generation, lead quality, and actual student enrolments.
 
 The solution will use Python, Google Cloud Platform (GCP), BigQuery, dbt, SQL, and Power BI. It will also establish a reliable historical data foundation for future predictive analytics and machine learning.
 
-2. Business Problems
+## 2. Business Background
+
+The EdTech company offers various training programs through online and offline learning models. It uses multiple digital marketing channels to attract potential students, generate enquiries, and increase course enrolments.
+
+Marketing activities are managed across different platforms, including Google Ads, Meta Ads, LinkedIn Ads, and organic search channels. Website performance is tracked through Google Analytics 4 and Google Search Console, while lead and enrolment information is maintained in Zoho CRM.
+
+Since these platforms maintain data separately, consolidating marketing performance and connecting advertising expenditure with actual business outcomes can be challenging.
+
+The proposed solution will bring these datasets together to provide a centralized view of marketing performance and support better business decisions.
+
+## 3. Business Problems
 
 The project aims to address the following business challenges:
 
-Fragmented Data: Marketing and CRM data are distributed across multiple platforms, making consolidated reporting difficult.
+1. **Fragmented Marketing Data:** Marketing and CRM information is distributed across multiple platforms, making consolidated reporting difficult.
 
-Manual Reporting: Collecting, combining, and preparing reports from different sources requires repetitive manual effort.
+2. **Manual Reporting:** Collecting, combining, and preparing reports from different sources requires repetitive manual effort.
 
-Unclear Marketing ROI: Difficulty connecting marketing expenditure with qualified leads and actual student enrolments.
+3. **Unclear Marketing ROI:** Difficulty connecting marketing expenditure with qualified leads and actual student enrolments.
 
-Lead Quality Analysis: Limited visibility into which channels and campaigns generate high-quality leads.
+4. **Limited Lead Quality Visibility:** Difficulty identifying which marketing channels and campaigns generate high-quality leads.
 
-Campaign Performance: Difficulty identifying campaigns that deliver meaningful business outcomes rather than just clicks and traffic.
+5. **Campaign Performance Analysis:** Limited visibility into which campaigns deliver meaningful business outcomes rather than just clicks and website traffic.
 
-Budget Allocation: Lack of consolidated performance insights to support marketing investment decisions.
+6. **Marketing Budget Allocation:** Lack of consolidated performance insights to support informed marketing investment decisions.
 
-Market and Course Analysis: Difficulty comparing marketing performance across countries, regions, and training programs.
+7. **Course-Level Performance:** Difficulty understanding which courses generate more enquiries, qualified leads, and enrolments.
 
-Historical Data Management: Lack of a centralized, structured dataset for long-term analysis and future predictive modelling.
+8. **Geographical Performance:** Difficulty comparing marketing performance across domestic and international markets.
 
-3. Data Sources
+9. **Data Quality Issues:** Different platforms use different data structures, naming conventions, and reporting formats.
 
-The project will integrate the following platforms:
+10. **Limited Historical Analysis:** Lack of a centralized historical dataset to support long-term analysis and future predictive modelling.
 
-Data Source
+## 4. Data Sources
 
-Purpose
+The project will integrate data from the following marketing, website analytics, and CRM platforms.
 
-Google Analytics 4 (GA4)
+| Data Source | Purpose |
+|---|---|
+| Google Analytics 4 (GA4) | Website traffic, user behaviour, sessions, and tracked conversions |
+| Google Search Console (GSC) | Organic search queries, clicks, impressions, CTR, and search visibility |
+| Google Ads | Paid search campaign performance, advertising expenditure, clicks, and available conversion metrics |
+| Meta Ads Manager | Facebook and Instagram advertising performance, expenditure, and lead generation |
+| LinkedIn Ads | LinkedIn campaign performance, advertising expenditure, and lead generation |
+| ChatGPT Ads Manager | ChatGPT advertising campaign performance and reporting, subject to advertiser access |
+| Zoho CRM | Lead information, lead sources, qualification stages, course interests, and enrolment outcomes |
 
-Website traffic, user behaviour, sessions, and conversions
+### Data Integration Considerations
 
-Google Search Console (GSC)
+- Data extraction will depend on available APIs, account permissions, and platform reporting capabilities.
+- CSV exports may be used where automated API access is unavailable.
+- ChatGPT advertising data and ChatGPT-related referral traffic will be treated as separate data categories.
+- Marketing-to-CRM matching will depend on reliable identifiers, UTM parameters, and available tracking information.
+- Platform-reported conversions will be distinguished from CRM-confirmed enrolments.
 
-Organic search performance, queries, clicks, and impressions
+## 5. Project Objectives
 
-Google Ads
+The primary objectives of this project are:
 
-Paid search campaign performance and advertising expenditure
+1. Integrate data from multiple marketing platforms and Zoho CRM.
+2. Automate data extraction using Python and available APIs.
+3. Build a centralized cloud data warehouse using Google BigQuery.
+4. Clean, standardize, and transform data using SQL and dbt.
+5. Connect marketing performance with CRM leads and enrolments wherever reliable matching is possible.
+6. Develop interactive Power BI dashboards for consolidated marketing reporting.
+7. Analyze marketing performance across channels, campaigns, courses, and geographical markets.
+8. Measure marketing efficiency using advertising spend, cost per lead, cost per qualified lead, and cost per enrolment wherever attribution is reliable.
+9. Reduce repetitive manual reporting and improve access to actionable business insights.
+10. Establish a historical data foundation for future predictive analytics.
 
-Meta Ads Manager
+## 6. Technology Stack
 
-Facebook and Instagram advertising performance
+| Technology | Purpose |
+|---|---|
+| Python | API extraction, data processing, and automation |
+| SQL | Data querying, transformation, and analytical calculations |
+| Google Cloud Platform (GCP) | Cloud infrastructure and pipeline execution |
+| Google BigQuery | Centralized cloud data warehouse |
+| dbt | Data transformation, modelling, testing, and documentation |
+| Power BI | Interactive dashboards and business intelligence reporting |
+| Git and GitHub | Version control and project documentation |
 
-LinkedIn Ads
+## 7. Proposed Data Architecture
 
-LinkedIn campaign performance and lead generation
+The proposed solution follows a structured data pipeline to collect, process, store, transform, and analyze marketing and CRM data.
 
-ChatGPT Ads Manager
+### 7.1 Data Flow
 
-ChatGPT advertising campaign performance and reporting
+**1. Data Sources**
 
-Zoho CRM
+The pipeline will collect data from the following platforms:
 
-Lead details, qualification stages, course interests, and enrolment outcomes
+- Google Analytics 4 (GA4)
+- Google Search Console (GSC)
+- Google Ads
+- Meta Ads Manager
+- LinkedIn Ads
+- ChatGPT Ads Manager
+- Zoho CRM
 
-Data availability and automated extraction will depend on API access, account permissions, and platform reporting capabilities. CSV exports may be used where API access is unavailable.
+↓
 
-4. Project Objectives
+**2. Data Extraction and Ingestion**
 
-Integrate data from multiple marketing platforms and Zoho CRM.
+Python will be used to extract data from available platform APIs and load it into Google BigQuery.
 
-Automate data extraction using Python and available APIs.
+Key activities include:
 
-Build a centralized cloud data warehouse using Google BigQuery.
+- API authentication and authorization.
+- Automated data extraction.
+- Pagination and API rate-limit handling.
+- Data normalization and schema validation.
+- CSV-based extraction where API access is unavailable.
 
-Clean, standardize, and transform data using SQL and dbt.
+↓
 
-Connect marketing performance with CRM leads and enrolments wherever reliable matching is possible.
+**3. Cloud Data Warehouse — Google BigQuery**
 
-Develop interactive Power BI dashboards for consolidated marketing reporting.
+BigQuery will act as the centralized storage layer for all collected marketing and CRM data.
 
-Analyze channel, campaign, course, and geographical performance.
+Key activities include:
 
-Measure marketing efficiency using KPIs such as advertising spend, cost per lead, cost per qualified lead, and cost per enrolment where attribution is reliable.
+- Creating separate datasets for raw and transformed data.
+- Storing source-level data in structured tables.
+- Maintaining historical records.
+- Organizing data for efficient querying and analysis.
 
-Reduce repetitive manual reporting and improve access to actionable insights.
+↓
 
-Build a historical data foundation for future predictive analytics.
+**4. Data Transformation — dbt and SQL**
 
-5. Technology Stack
+dbt and SQL will be used to clean, standardize, transform, and organize the raw data into analytical models.
 
-Technology
+The transformation process will include:
 
-Purpose
+- **Staging Layer:** Data cleaning, column standardization, type casting, and duplicate removal.
+- **Intermediate Layer:** Currency standardization, UTM parsing, and preparation of marketing and CRM datasets for integration.
+- **Marts Layer:** Analytical datasets for campaign performance, marketing channels, advertising expenditure, leads, and enrolments.
 
-Python
+↓
 
-API extraction, data processing, and automation
+**5. Business Intelligence — Power BI**
 
-SQL
+Power BI will connect to the transformed BigQuery datasets to develop interactive dashboards.
 
-Data querying and transformation
+The proposed dashboards will cover:
 
-Google Cloud Platform
+- Marketing performance overview.
+- SEO performance.
+- Paid advertising performance.
+- Lead funnel and conversion analysis.
+- Course-level performance.
+- Geographical performance.
 
-Cloud infrastructure
+↓
 
-Google BigQuery
+**6. Business Insights**
 
-Centralized data warehouse
+The dashboards will help business stakeholders:
 
-dbt
+- Identify high-performing marketing channels and campaigns.
+- Understand lead quality and enrolment performance.
+- Evaluate advertising expenditure and acquisition costs.
+- Compare performance across courses and geographical markets.
+- Make informed marketing budget allocation decisions.
 
-Data transformation, modelling, and quality testing
-
-Power BI
-
-Dashboards and business intelligence
-
-Git & GitHub
-
-Version control and project documentation
-
-
-The solution follows an end-to-end data pipeline, moving from multi-platform data collection to automated reporting and predictive analytics.
-
-6. Proposed Data Architecture
-
-The solution follows an end-to-end data pipeline, moving from multi-platform data collection to automated reporting and predictive analytics.
+### 7.2 Proposed Data Warehouse Structure
 
-Architecture Overview
+The BigQuery data warehouse will use separate layers to organize source data and transformed analytical datasets.
 
-```text
-[ 1. DATA SOURCES ]
-  ├── Google Analytics 4 (GA4)
-  ├── Google Search Console (GSC)
-  ├── Google Ads
-  ├── Meta Ads Manager
-  ├── LinkedIn Ads
-  ├── ChatGPT Ads / AI Referral
-  └── Zoho CRM (Leads & Deals)
-            │
-            ▼
-[ 2. EXTRACTION & INGESTION ]
-  ├── Python API Extraction (Cloud Run Jobs)
-  ├── OAuth2 & API Authentication
-  ├── Pagination & Rate-Limit Handling (Exponential Backoff)
-  └── JSON Normalization & Schema Validation (Pydantic / Pandas)
-            │
-            ▼
-[ 3. RAW DATA STORAGE - GOOGLE BIGQUERY ]
-  └── Dataset: raw_marketing (Partitioned by Date, Clustered by Campaign/Account)
-        ├── raw_ga4_events
-        ├── raw_gsc_search
-        ├── raw_google_ads
-        ├── raw_meta_ads
-        ├── raw_linkedin_ads
-        ├── raw_chatgpt_ads
-        └── raw_zoho_leads & raw_zoho_deals
-            │
-            ▼
-[ 4. DBT TRANSFORMATION - BIGQUERY ]
-  ├── Staging Layer (stg_)
-  │     └── Type casting, naming standardization, deduplication
-  ├── Intermediate Layer (int_)
-  │     └── Currency conversion, UTM parsing, session-to-lead matching
-  └── Marts Layer (fct_ & dim_)
-        ├── dim_campaigns, dim_channels, dim_customers, dim_dates
-        ├── fct_ad_spend_daily (spend, clicks, impressions)
-        └── fct_marketing_conversion_journey (multi-touch attribution)
-            │
-            ├─────────────────────────────────────────┐
-            ▼                                         ▼
-[ 5. BUSINESS INTELLIGENCE ]              [ 6. PREDICTIVE ANALYTICS ]
-  Power BI Interactive Dashboards           BigQuery ML (BQML)
-  ├── Executive Marketing Overview          ├── Multi-Channel Budget Optimization
-  ├── SEO & Paid Channel Deep Dives         ├── Lead Scoring & Conversion Propensity
-  ├── End-to-End Lead Funnel                └── Ad Spend & Lead Forecasting (ARIMA)
-  └── Attribution & Conversion ROI
-            ▲                                         ▲
-            └────────────────────┬────────────────────┘
-                                 │
-[ 7. ORCHESTRATION & AUTOMATION ]
-  └── Google Cloud Scheduler (Cron Trigger: 02:00 AM UTC Daily)
-        └── Google Cloud Workflows / Cloud Run
-              ├── 1. Trigger Python Extraction Services
-              ├── 2. Run dbt Build & Data Quality Tests
-              ├── 3. Execute BigQuery ML Inference Models
-              ├── 4. Trigger Power BI Dataset Refresh (REST API)
-              └── 5. Dispatch Slack / Email Execution Alerts
-Pipeline ComponentsLayerTechnologyResponsibilityData SourcesGA4, GSC, Google Ads, Meta Ads, LinkedIn Ads, ChatGPT Ads, Zoho CRMCollect marketing, website, lead, and customer journey data.ExtractionPython, REST APIs, Cloud Run JobsAuthenticate, extract, normalize, and validate raw payload data.Raw StorageGoogle BigQueryPersist immutable, partitioned source-level tables.Transformationdbt, SQL, BigQueryClean, standardize, deduplicate, and model dimensional star schemas.ReportingPower BIDeliver executive dashboards and actionable business metrics.Predictive AnalyticsBigQuery MLPower lead scoring, budget optimization, and time-series forecasting.OrchestrationCloud Scheduler, Cloud WorkflowsAutomate end-to-end execution, health checks, and alerting.Automation WorkflowTrigger: Cloud Scheduler initiates the workflow execution daily at 02:00 UTC.Extraction: Python containers extract the latest incremental data via source APIs.Ingestion: Validated payloads are staged into date-partitioned BigQuery raw tables.Transformation: dbt builds staging, intermediate, and dimensional mart tables.Quality Checks: dbt tests enforce schema validity, unique constraints, and non-null values.BI Refresh: Power BI REST API triggers a scheduled refresh of the semantic model.Notification: Webhooks dispatch execution logs and success/failure alerts to Slack/Email.ML Inference: BigQuery ML models calculate updated lead scores and 30-day performance forecasts.Implementation Note: This architecture represents the target production design. Features such as multi-touch attribution algorithms, dynamic currency conversion, BigQuery ML models, and direct Power BI REST API refreshes are enabled progressively as source credentials and data schemas are confirmed.
-```
+**Raw Layer — `raw_marketing`**
 
-7. Key Business Metrics
+This layer will store data extracted from individual platforms.
 
-The dashboards will focus on:
+Proposed tables:
 
-Website users and sessions.
+- `raw_ga4_events`
+- `raw_gsc_search`
+- `raw_google_ads`
+- `raw_meta_ads`
+- `raw_linkedin_ads`
+- `raw_chatgpt_ads`
+- `raw_zoho_leads`
+- `raw_zoho_deals`
 
-Organic clicks, impressions, and CTR.
+**Staging Layer — `stg_`**
 
-Advertising impressions, clicks, and expenditure.
+This layer will prepare source data for further transformation.
 
-Campaign-level performance.
+Key activities:
 
-Total enquiries and qualified leads.
+- Standardize column names and data types.
+- Normalize dates and timestamps.
+- Handle missing and duplicate records.
+- Validate source data.
 
-Confirmed student enrolments.
+**Intermediate Layer — `int_`**
 
-Lead-to-qualified and lead-to-enrolment conversion rates.
+This layer will prepare data for business-level analysis.
 
-Cost per lead and cost per qualified lead.
+Key activities:
 
-Cost per enrolment where reliable attribution is available.
+- Standardize currencies where required.
+- Parse UTM parameters.
+- Prepare marketing and CRM datasets for integration.
+- Match sessions and leads where reliable identifiers exist.
+- Prepare datasets for agreed attribution calculations.
 
-Marketing performance by channel, campaign, course, and country.
+**Marts Layer — `fct_` and `dim_`**
 
-8. Expected Dashboards
+This layer will contain business-ready analytical datasets.
 
-The Power BI reporting solution will include:
+Potential models include:
 
-Marketing Overview: Consolidated view of website traffic, marketing expenditure, enquiries, and enrolments.
+- `dim_campaigns`
+- `dim_channels`
+- `dim_dates`
+- `fct_ad_spend_daily`
+- `fct_marketing_leads`
+- `fct_marketing_conversion_journey`
 
-SEO Performance: Organic search traffic, queries, landing pages, and search visibility.
+The final warehouse schema will depend on actual source fields, available identifiers, and validated business definitions.
 
-Paid Advertising Performance: Google, Meta, LinkedIn, and ChatGPT campaign performance.
+## 8. Data Pipeline and Automation
 
-Lead Funnel Analysis: Lead sources, qualification stages, conversion rates, and enrolments.
+The initial implementation will focus on automating data extraction, storage, transformation, validation, and reporting.
 
-Course and Geographical Analysis: Performance across training programs and domestic and international markets.
+### Proposed Automation Workflow
 
-9. Future Scope: Predictive Analytics
+1. **Scheduling:** Google Cloud Scheduler will trigger pipeline execution according to a configured schedule.
+2. **Data Extraction:** Python scripts will retrieve available data from marketing and CRM platforms through authorized APIs.
+3. **Data Ingestion:** Extracted data will be normalized, validated, and loaded into BigQuery raw tables.
+4. **Data Transformation:** dbt will execute staging, intermediate, and mart models.
+5. **Data Quality Testing:** dbt tests will validate required fields, uniqueness, relationships, and data consistency.
+6. **Dashboard Refresh:** Power BI datasets will be refreshed after successful data processing, subject to configured refresh and API permissions.
+7. **Notifications:** Email or Slack notifications will communicate pipeline execution status and failures.
 
-Once sufficient historical data is collected and validated, the warehouse can support future machine learning initiatives such as:
+The pipeline will include API error handling, pagination, rate-limit management, logging, and incremental extraction wherever supported.
 
-Lead conversion prediction.
+Machine learning inference is not part of the initial reporting pipeline. Predictive model execution will be considered separately as a future enhancement.
 
-Lead quality scoring.
+## 9. Key Business Metrics
 
-Campaign performance forecasting.
+The Power BI dashboards will focus on the following business metrics.
 
-Marketing budget optimization.
+| Category | Key Metrics |
+|---|---|
+| Website Performance | Users, sessions, engagement, tracked conversions |
+| SEO Performance | Organic clicks, impressions, CTR, average search position |
+| Paid Advertising | Impressions, clicks, expenditure, CPC, available conversions |
+| Lead Generation | Total enquiries, leads by source, qualified leads |
+| Enrolment Performance | Confirmed enrolments, lead-to-enrolment rate |
+| Marketing Efficiency | Cost per lead, cost per qualified lead, cost per enrolment where attributable |
+| Campaign Performance | Spend, leads, qualified leads, and enrolments by campaign |
+| Business Performance | Course, channel, country, and geographical comparisons |
 
-Course demand and enrolment forecasting.
+KPI definitions and attribution rules will be validated before implementation. Advertising expenditure will only be connected to CRM outcomes where reliable attribution is available.
 
-These are future enhancements, not part of the initial implemented scope.
+## 10. Expected Power BI Dashboards
 
-10. Expected Outcome
+The reporting solution will include the following proposed dashboards.
 
-The final solution will provide a centralized and automated marketing analytics system that connects digital marketing performance with CRM lead and enrolment outcomes.
+### 10.1 Marketing Overview Dashboard
 
-It will help the business understand which channels and campaigns generate valuable leads, evaluate marketing expenditure, identify growth opportunities, and make more informed marketing investment decisions.
+- Website traffic and acquisition channels.
+- Total marketing expenditure.
+- Total enquiries and qualified leads.
+- Confirmed student enrolments.
+- Marketing performance trends.
+- Overall channel performance.
 
-It will also establish a structured historical data foundation for advanced analytics and future predictive modelling.
+### 10.2 SEO Performance Dashboard
 
-Project Status: In Progress
+- Organic search clicks and impressions.
+- Search queries and landing pages.
+- Click-through rate and average search position.
+- Organic traffic trends.
+- Available organic enquiry information.
 
-Project Type: End-to-End Marketing Analytics, Data Engineering, Reporting Automation, and Business Intelligence
+### 10.3 Paid Advertising Performance Dashboard
+
+- Google Ads campaign performance.
+- Meta Ads campaign performance.
+- LinkedIn Ads campaign performance.
+- ChatGPT Ads performance, subject to available reporting data.
+- Advertising expenditure, clicks, leads, and available conversion metrics.
+
+### 10.4 Lead Funnel Analysis Dashboard
+
+- Total leads and lead sources.
+- Lead qualification stages.
+- Qualified leads and enrolments.
+- Lead-to-qualified and lead-to-enrolment rates.
+- Funnel drop-off analysis.
+
+### 10.5 Course and Geographical Analysis Dashboard
+
+- Enquiries by course.
+- Qualified leads and enrolments by course.
+- Marketing performance across India and international markets.
+- Country-level lead and enrolment trends.
+
+## 11. Data Quality and Validation
+
+Data quality is an important part of the proposed analytics solution.
+
+The project will include data validation checks to improve the reliability and consistency of reporting.
+
+Key checks will include:
+
+- Missing and null value identification.
+- Duplicate record detection.
+- Data type validation.
+- Date and timestamp consistency.
+- Standardization of campaign and channel names.
+- Validation of advertising expenditure and currency fields.
+- Validation of CRM lead and enrolment records.
+- Referential integrity checks for related analytical models.
+
+dbt tests will be used to automate relevant data quality checks during the transformation process.
+
+## 12. Future Scope: Predictive Analytics
+
+After the initial reporting solution is implemented and sufficient historical data is collected and validated, BigQuery ML may be introduced for future machine learning initiatives.
+
+Potential enhancements include:
+
+- **Lead Conversion Prediction:** Estimate the likelihood of a lead becoming an enrolled student.
+- **Lead Quality Scoring:** Prioritize leads based on their likelihood of progressing through the sales funnel.
+- **Campaign Performance Forecasting:** Estimate future campaign performance using historical data.
+- **Marketing Budget Optimization:** Support better allocation of marketing expenditure across channels.
+- **Course Demand Forecasting:** Estimate future interest in different training programs.
+- **Enrolment Forecasting:** Identify potential enrolment trends across courses and geographical markets.
+
+These enhancements are part of the future scope and are not included in the initial implementation.
+
+## 13. Expected Business Outcomes
+
+The completed solution is expected to provide:
+
+- A centralized view of marketing and CRM performance.
+- Reduced manual reporting effort.
+- Better visibility into channel and campaign effectiveness.
+- Improved understanding of lead quality and enrolment conversion.
+- More informed marketing budget allocation decisions.
+- Consistent historical reporting across courses and geographical markets.
+- A structured data foundation for future predictive analytics.
+
+Ultimately, the solution will help the business understand which marketing channels and campaigns generate valuable leads and actual student enrolments, enabling more informed decisions about where to invest marketing resources.
+
+## 14. Assumptions and Dependencies
+
+The project depends on the following:
+
+- Access to the required marketing and CRM accounts.
+- API availability and appropriate permissions for automated extraction.
+- CSV exports as an alternative where API access is unavailable.
+- Consistent source data and agreed business definitions.
+- Reliable tracking identifiers and UTM parameters for marketing-to-CRM matching.
+- Validated lead qualification and enrolment definitions.
+- Appropriate Google Cloud and Power BI permissions for pipeline execution and reporting.
+
+The availability and quality of source data may affect the level of integration and attribution possible.
+
+## 15. Project Scope and Status
+
+**Project Type:** End-to-End Marketing Analytics, Data Engineering, Reporting Automation, and Business Intelligence.
+
+**Initial Implementation Scope:**
+
+- Marketing and CRM data integration.
+- Python-based data extraction.
+- Google BigQuery data warehousing.
+- SQL and dbt transformations.
+- Data quality validation.
+- Power BI dashboard development.
+- Pipeline scheduling and reporting automation.
+
+**Future Scope:**
+
+- Predictive analytics.
+- Machine learning.
+- Lead conversion prediction and scoring.
+- Campaign performance forecasting.
+- Marketing budget optimization.
+- Course demand and enrolment forecasting.
+
+**Project Status:** In Progress
+
+The project will be developed incrementally, with each component implemented, tested, and documented before being marked as completed.
