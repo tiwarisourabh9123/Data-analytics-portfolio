@@ -124,77 +124,75 @@ Git & GitHub
 
 Version control and project documentation
 
-6. Proposed Data Pipeline
 
-The solution will follow this workflow:
+The solution follows an end-to-end data pipeline, moving from multi-platform data collection to automated reporting and predictive analytics.
 
-DATA SOURCES
-GA4 | GSC | Google Ads | Meta Ads
-LinkedIn Ads | ChatGPT Ads | Zoho CRM
+6. Proposed Data Architecture
 
-      -----------------------------------------------------------------------------------+
-|                                           DATA SOURCES                                             |
-|  [GA4]   [GSC]   [Google Ads]   [Meta Ads]   [LinkedIn Ads]   [ChatGPT / AI Ads]   [Zoho CRM]      |
-+----------------------------------------------------------------------------------------------------+
-                                                  │
-                                                  ▼
-+----------------------------------------------------------------------------------------------------+
-|                         EXTRACTION & INGESTION (Python / Cloud Functions)                          |
-|  • OAuth2 / API Token Authentication                                                               |
-|  • Parameterized Pagination & Rate-Limit Handling (Exponential Backoff)                            |
-|  • JSON Normalization & Schema Validation (Pydantic / Pandas)                                      |
-+----------------------------------------------------------------------------------------------------+
-                                                  │
-                                                  ▼
-+----------------------------------------------------------------------------------------------------+
-|                                    RAW DATA STORAGE (BigQuery)                                     |
-|  Dataset: raw_marketing                                                                            |
-|  Tables:  raw_ga4_events, raw_gsc_search, raw_google_ads, raw_meta_ads,                            |
-|           raw_linkedin_ads, raw_chatgpt_ads, raw_zoho_leads, raw_zoho_deals                        |
-|  Strategy: Daily Partitioned (_PARTITIONDATE), Clustered by campaign_id / account_id               |
-+----------------------------------------------------------------------------------------------------+
-                                                  │
-                                                  ▼
-+----------------------------------------------------------------------------------------------------+
-|                                DBT TRANSFORMATION ENGINE (BigQuery)                               |
-|                                                                                                    |
-|  [1. Staging Layer (stg_)]                                                                         |
-|      - Cast types, standardize snake_case names, unnest payloads, deduplicate via surrogate keys    |
-|                                                                                                    |
-|  [2. Intermediate Layer (int_)]                                                                    |
-|      - Currency standardization (USD/INR conversion)                                               |
-|      - UTM Parameter Parsing & Session-to-Lead Matching                                            |
-|      - Attribution Modeling (First-Touch, Last-Touch, Linear, Position-Based)                      |
-|                                                                                                    |
-|  [3. Marts Layer (fct_ & dim_)]                                                                    |
-|      - dim_campaigns, dim_channels, dim_customers, dim_dates                                       |
-|      - fct_ad_spend_daily (spend, impressions, clicks, channel_id)                                  |
-|      - fct_marketing_conversion_journey (lead_id, deal_value, pipeline_stage, attributed_spend)    |
-+----------------------------------------------------------------------------------------------------+
-                                                  │
-                         ┌────────────────────────┴────────────────────────┐
-                         ▼                                                 ▼
-+-------------------------------------------------+  +-----------------------------------------------+
-|         POWER BI REPORTING (Semantic Layer)     |  |       PREDICTIVE & ML ENGINE (BigQuery ML)    |
-|  • Import / Composite DirectQuery Models        |  |  • Budget Allocation Optimization             |
-|  • Unified Star Schema                          |  |  • Lead Scoring & Churn Propensity (LogReg)   |
-|  • Executive KPIs: Blended CAC, MER, ROAS, LTV  |  |  • Multi-Channel Ad Spend Forecasting (ARIMA) |
-|  • Attribution Funnel & Lead Velocity Dashboards|  |  • AI Search Attribution & Referral Impact    |
-+-------------------------------------------------+  +-----------------------------------------------+
-                         ▲                                                 ▲
-                         └────────────────────────┬────────────────────────┘
-                                                  │
-+----------------------------------------------------------------------------------------------------+
-|                                  ORCHESTRATION & AUTOMATION                                        |
-|  • Google Cloud Scheduler (Cron triggers: 02:00 AM UTC Daily)                                      |
-|  • Google Cloud Workflows / Cloud Composer / GitHub Actions Workflow                               |
-|  • Step 1: Run Python Ingestion Cloud Run Jobs                                                     |
-|  • Step 2: Trigger dbt Cloud API / dbt-core execution (`dbt build --select tag:daily`)              |
-|  • Step 3: Trigger BigQuery ML scoring scheduled queries                                           |
-|  • Step 4: Call Power BI REST API to trigger Dataset Scheduled Refresh                             |
-|  • Step 5: Send Slack / Email alert on task status via Webhook                                     |
-+----------------------------------------------------------------------------------------------------+
+The solution follows an end-to-end data pipeline, moving from multi-platform data collection to automated reporting and predictive analytics.
 
+Architecture Overview
+
+```text
+[ 1. DATA SOURCES ]
+  ├── Google Analytics 4 (GA4)
+  ├── Google Search Console (GSC)
+  ├── Google Ads
+  ├── Meta Ads Manager
+  ├── LinkedIn Ads
+  ├── ChatGPT Ads / AI Referral
+  └── Zoho CRM (Leads & Deals)
+            │
+            ▼
+[ 2. EXTRACTION & INGESTION ]
+  ├── Python API Extraction (Cloud Run Jobs)
+  ├── OAuth2 & API Authentication
+  ├── Pagination & Rate-Limit Handling (Exponential Backoff)
+  └── JSON Normalization & Schema Validation (Pydantic / Pandas)
+            │
+            ▼
+[ 3. RAW DATA STORAGE - GOOGLE BIGQUERY ]
+  └── Dataset: raw_marketing (Partitioned by Date, Clustered by Campaign/Account)
+        ├── raw_ga4_events
+        ├── raw_gsc_search
+        ├── raw_google_ads
+        ├── raw_meta_ads
+        ├── raw_linkedin_ads
+        ├── raw_chatgpt_ads
+        └── raw_zoho_leads & raw_zoho_deals
+            │
+            ▼
+[ 4. DBT TRANSFORMATION - BIGQUERY ]
+  ├── Staging Layer (stg_)
+  │     └── Type casting, naming standardization, deduplication
+  ├── Intermediate Layer (int_)
+  │     └── Currency conversion, UTM parsing, session-to-lead matching
+  └── Marts Layer (fct_ & dim_)
+        ├── dim_campaigns, dim_channels, dim_customers, dim_dates
+        ├── fct_ad_spend_daily (spend, clicks, impressions)
+        └── fct_marketing_conversion_journey (multi-touch attribution)
+            │
+            ├─────────────────────────────────────────┐
+            ▼                                         ▼
+[ 5. BUSINESS INTELLIGENCE ]              [ 6. PREDICTIVE ANALYTICS ]
+  Power BI Interactive Dashboards           BigQuery ML (BQML)
+  ├── Executive Marketing Overview          ├── Multi-Channel Budget Optimization
+  ├── SEO & Paid Channel Deep Dives         ├── Lead Scoring & Conversion Propensity
+  ├── End-to-End Lead Funnel                └── Ad Spend & Lead Forecasting (ARIMA)
+  └── Attribution & Conversion ROI
+            ▲                                         ▲
+            └────────────────────┬────────────────────┘
+                                 │
+[ 7. ORCHESTRATION & AUTOMATION ]
+  └── Google Cloud Scheduler (Cron Trigger: 02:00 AM UTC Daily)
+        └── Google Cloud Workflows / Cloud Run
+              ├── 1. Trigger Python Extraction Services
+              ├── 2. Run dbt Build & Data Quality Tests
+              ├── 3. Execute BigQuery ML Inference Models
+              ├── 4. Trigger Power BI Dataset Refresh (REST API)
+              └── 5. Dispatch Slack / Email Execution Alerts
+Pipeline ComponentsLayerTechnologyResponsibilityData SourcesGA4, GSC, Google Ads, Meta Ads, LinkedIn Ads, ChatGPT Ads, Zoho CRMCollect marketing, website, lead, and customer journey data.ExtractionPython, REST APIs, Cloud Run JobsAuthenticate, extract, normalize, and validate raw payload data.Raw StorageGoogle BigQueryPersist immutable, partitioned source-level tables.Transformationdbt, SQL, BigQueryClean, standardize, deduplicate, and model dimensional star schemas.ReportingPower BIDeliver executive dashboards and actionable business metrics.Predictive AnalyticsBigQuery MLPower lead scoring, budget optimization, and time-series forecasting.OrchestrationCloud Scheduler, Cloud WorkflowsAutomate end-to-end execution, health checks, and alerting.Automation WorkflowTrigger: Cloud Scheduler initiates the workflow execution daily at 02:00 UTC.Extraction: Python containers extract the latest incremental data via source APIs.Ingestion: Validated payloads are staged into date-partitioned BigQuery raw tables.Transformation: dbt builds staging, intermediate, and dimensional mart tables.Quality Checks: dbt tests enforce schema validity, unique constraints, and non-null values.BI Refresh: Power BI REST API triggers a scheduled refresh of the semantic model.Notification: Webhooks dispatch execution logs and success/failure alerts to Slack/Email.ML Inference: BigQuery ML models calculate updated lead scores and 30-day performance forecasts.Implementation Note: This architecture represents the target production design. Features such as multi-touch attribution algorithms, dynamic currency conversion, BigQuery ML models, and direct Power BI REST API refreshes are enabled progressively as source credentials and data schemas are confirmed.
+```
 
 7. Key Business Metrics
 
