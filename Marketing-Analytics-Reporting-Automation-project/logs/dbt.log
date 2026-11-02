@@ -1,0 +1,41 @@
+[0m18:39:48.294219 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE08B3FFE0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE09455DF0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE0B58B530>]}
+
+
+============================== 18:39:48.299222 | cd25f5f4-c6b6-4abe-9b24-c309dbb51ff2 ==============================
+[0m18:39:48.299222 [info ] [MainThread]: Running with dbt=1.13.0-b1
+[0m18:39:48.300190 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'maximum_seed_size_mib': '1', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'version_check': 'True', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'C:\\Users\\soura\\.dbt', 'indirect_selection': 'eager', 'hints_enabled': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'invocation_command': 'dbt init dbt_marketing', 'log_path': 'logs'}
+[0m18:39:48.301944 [debug] [MainThread]: Tracking: tracking
+[0m18:39:48.327489 [info ] [MainThread]: Creating dbt configuration folder at C:\Users\soura\.dbt
+[0m18:39:48.331447 [debug] [MainThread]: Starter project path: C:\Users\soura\marketing_analytics_pipeline\venv\Lib\site-packages\dbt\include\starter_project
+[0m18:39:48.360938 [info ] [MainThread]: Setting up your profile.
+[0m18:43:55.128883 [error] [MainThread]: [[31mERROR[0m]: Encountered an error:
+
+[0m18:43:55.132885 [error] [MainThread]: Traceback (most recent call last):
+  File "C:\Users\soura\marketing_analytics_pipeline\venv\Lib\site-packages\dbt\cli\requires.py", line 211, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\soura\marketing_analytics_pipeline\venv\Lib\site-packages\dbt\cli\requires.py", line 157, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\soura\marketing_analytics_pipeline\venv\Lib\site-packages\dbt\cli\main.py", line 505, in init
+    results = task.run()
+              ^^^^^^^^^^
+  File "C:\Users\soura\marketing_analytics_pipeline\venv\Lib\site-packages\dbt\task\init.py", line 363, in run
+    self.setup_profile(profile_name)
+  File "C:\Users\soura\marketing_analytics_pipeline\venv\Lib\site-packages\dbt\task\init.py", line 264, in setup_profile
+    adapter = self.ask_for_adapter_choice()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\soura\marketing_analytics_pipeline\venv\Lib\site-packages\dbt\task\init.py", line 245, in ask_for_adapter_choice
+    numeric_choice = click.prompt(prompt_msg, type=click.INT)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\soura\marketing_analytics_pipeline\venv\Lib\site-packages\click\termui.py", line 262, in prompt
+    value = prompt_func(prompt)
+            ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\soura\marketing_analytics_pipeline\venv\Lib\site-packages\click\termui.py", line 245, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m18:43:55.133847 [debug] [MainThread]: Command `dbt init` failed at 18:43:55.133847 after 247.00 seconds
+[0m18:43:55.134885 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE09394C80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE0D0667E0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE0D31BC20>]}
+[0m18:43:55.134885 [debug] [MainThread]: Flushing usage events
+[0m18:43:56.384104 [debug] [MainThread]: An error was encountered while trying to flush usage events

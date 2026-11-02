@@ -1,0 +1,70 @@
+version: 2
+
+sources:
+  - name: raw
+    database: marketing-analytics-9123
+    schema: raw
+    tables:
+      - name: zoho_crm_leads_raw
+        description: "Raw lead submissions and deal stages from Zoho CRM"
+        columns:
+          - name: lead_id
+            description: "Primary key for leads"
+            tests:
+              - unique
+              - not_null
+          - name: extracted_at
+            tests:
+              - not_null
+
+      - name: meta_ads_performance_raw
+        description: "Ad spend and performance metrics from Meta Ads"
+        columns:
+          - name: campaign_id
+            tests:
+              - not_null
+          - name: date
+            tests:
+              - not_null
+          - name: spend
+            tests:
+              - not_null
+
+      - name: google_ads_performance_raw
+        description: "Ad spend and performance metrics from Google Ads"
+        columns:
+          - name: campaign_id
+            tests:
+              - not_null
+          - name: date
+            tests:
+              - not_null
+          - name: cost
+            tests:
+              - not_null
+
+      - name: ga4_traffic_raw
+        description: "Website sessions, engagement, and user traffic from Google Analytics 4"
+        columns:
+          - name: date
+            tests:
+              - not_null
+
+      - name: gsc_search_performance_raw
+        description: "Organic search queries, impressions, and clicks from Google Search Console"
+        columns:
+          - name: date
+            tests:
+              - not_null
+          - name: query
+            tests:
+              - not_null
+
+      - name: chatgpt_interactions_raw
+        description: "Inbound student chatbot conversations and sentiment from ChatGPT"
+        columns:
+          - name: interaction_id
+            description: "Primary key for chat sessions"
+            tests:
+              - unique
+              - not_null

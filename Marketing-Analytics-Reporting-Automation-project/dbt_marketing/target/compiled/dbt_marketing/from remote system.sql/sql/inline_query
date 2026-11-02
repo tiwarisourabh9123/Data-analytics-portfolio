@@ -1,0 +1,1 @@
+select report_date, channel, round(total_spend, 2) as spend, total_leads, total_enrollments, round(total_revenue_inr, 2) as revenue_inr, cost_per_lead, channel_roi from `marketing-analytics-9123`.`staging`.`fct_marketing_roi_daily` where total_spend > 0 and total_revenue_inr > 0 order by report_date desc
